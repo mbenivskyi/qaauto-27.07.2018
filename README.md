@@ -1,4 +1,4 @@
-h1 **Installation**
+**Installation**
 ------------------------------------------------------------
 
 Download and install 'Community' version of [IntelliJ Idea](https://www.jetbrains.com/idea/download/#section=windows)
