@@ -16,7 +16,6 @@ public class BadCodeExample {
     System.out.println("Hello world!!!");
         WebDriver browser = new FirefoxDriver();
         browser.get("https://google.com");
-        sleep(3000);
 
         WebElement queryField = browser.findElement(By.name("q"));
         queryField.sendKeys ("Selenium");
@@ -26,11 +25,20 @@ public class BadCodeExample {
         sleep(3000);
         List<WebElement> searchResults = browser.findElements(By.xpath("//div[@class='srg']/div[@class='g']"));
         System.out.println("Results count: "+searchResults.size());
+        if (searchResults.size() == 10){
+            System.out.println("Results count is correct");
+        } else{
+            System.out.println("Results count is incorrect");
+        }
 
         //Verify that each result item contain searchterm
         for (WebElement searchResult: searchResults) {
             String searchResultText = searchResult.getText();
-            System.out.println(searchResultText);
+            if (searchResultText.contains("Selenium")){
+                System.out.println("Searchterm found");
+            }else{
+                System.out.println("Searchterm not found");
+            }
         }
 
         sleep(3000);
