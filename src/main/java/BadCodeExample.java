@@ -4,25 +4,23 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.events.WebDriverEventListener;
-
 import java.util.List;
-
 import static java.lang.Thread.sleep;
 
 public class BadCodeExample {
     private static Object sendKeys;
 
+    //main() is bad
     public static void main(String args[]) throws InterruptedException {
-    System.out.println("Hello world!!!");
+    System.out.println("Hello world!!!"); //all prints are bad
         WebDriver browser = new FirefoxDriver();
         browser.get("https://google.com");
-
         WebElement queryField = browser.findElement(By.name("q"));
         queryField.sendKeys ("Selenium");
         queryField.sendKeys(Keys.ENTER);
 
         //Verify that results list contains 10 elements
-        sleep(3000);
+        sleep(3000); //sleep is bad
         List<WebElement> searchResults = browser.findElements(By.xpath("//div[@class='srg']/div[@class='g']"));
         System.out.println("Results count: "+searchResults.size());
         if (searchResults.size() == 10){
@@ -32,9 +30,10 @@ public class BadCodeExample {
         }
 
         //Verify that each result item contain searchterm
+        //for each searchResult in searchResults List
         for (WebElement searchResult: searchResults) {
             String searchResultText = searchResult.getText();
-            if (searchResultText.contains("Selenium")){
+            if (searchResultText.toLowerCase().contains("selenium")){
                 System.out.println("Searchterm found");
             }else{
                 System.out.println("Searchterm not found");
