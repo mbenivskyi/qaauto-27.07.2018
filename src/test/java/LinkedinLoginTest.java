@@ -3,39 +3,47 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static java.lang.Thread.sleep;
 
 public class LinkedinLoginTest {
 
-    @Test                                       //аннотация для компилятора о том, что метод можно выполнить
-    public void successfulLoginTest() {
-        WebDriver browser = new FirefoxDriver();
+    WebDriver browser;
+
+    @BeforeMethod
+    public void beforeMethod() {
+        browser = new FirefoxDriver();
         browser.get("https://www.linkedin.com/");
-        WebElement userEmailField = browser
-                .findElement(By.xpath("//input[@id='login-email']"));
-        WebElement userPasswordField = browser
-                .findElement(By.xpath("//input[@id='login-password']"));
-        WebElement signInButton = browser
-                .findElement(By.xpath("//input[@id='login-submit']"));
+    }
 
-        userEmailField.sendKeys("youngbloodvasilievna@gmail.com");
-        userPasswordField.sendKeys("Pensiya15000");
-        signInButton.click();
+    @AfterMethod
+    public void afterMethod() {
+        browser.close();
+    }
 
-        String pageURL = browser.getCurrentUrl();
-        Assert.assertEquals(pageURL, "https://www.linkedin.com/feed/", "Page URL is wrong");
+    @Test                                       //аннотация для компилятора о том, что метод можно выполнить
+    public void successfulLoginTest() throws InterruptedException {
 
+        LinkedInLoginPage linkedInLoginPage = new LinkedInLoginPage(browser);
+        linkedInLoginPage.login("youngbloodvasilievna@gmail.com", "Pensiya15000");
+
+        sleep(3000);
+
+        String pageUrl = browser.getCurrentUrl();
         String pageTitle = browser.getTitle();
-        Assert.assertEquals(pageTitle,"LinkedIn", "Page Title is wrong");
+        WebElement profileNavigationItem = browser.findElement(By.xpath("//*[@id='profile-nav-item']"));
 
-        WebElement welcomeMessage = browser.findElement(By.xpath("//*[@data-control-name='identity_welcome_message']"));
-        Assert.assertEquals(welcomeMessage.getText(), "Добро пожаловать, Elena!", "Page doesn't contain Welcome Message");
+        Assert.assertEquals(pageUrl, "https://www.linkedin.com/feed/", "Home page URL is wrong");
+        Assert.assertEquals(pageTitle,"LinkedIn", "Home page title is wrong.");
+        Assert.assertTrue(profileNavigationItem.isDisplayed(), "'profileNavigationItem' is not displayed on Home page");
+        //Assert.assertEquals(profileNavigationItem.isDisplayed(), true);
     }
 
     @Test
-    public void negativeLoginTest() {
-        WebDriver browser = new FirefoxDriver();
-        browser.get("https://www.linkedin.com/");
+    public void negativeLoginTest() throws InterruptedException {
         WebElement userEmailField = browser
                 .findElement(By.xpath("//input[@id='login-email']"));
         WebElement userPasswordField = browser
@@ -46,6 +54,8 @@ public class LinkedinLoginTest {
         userEmailField.sendKeys("a@b.c");
         userPasswordField.sendKeys("wrong");
         signInButton.click();
+
+        sleep(3000);
 
         WebElement alertBox = browser.findElement(By.xpath("//*[@role='alert']"));
         Assert.assertEquals(alertBox.getText(),
