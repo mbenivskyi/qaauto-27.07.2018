@@ -4,21 +4,30 @@ import org.openqa.selenium.WebElement;
 
 public class LinkedInHomePage {
 
-    WebDriver browser;
+    private WebDriver browser;
+    private WebElement profileNavigationItem;
 
-    WebElement profileNavigationItem;
-
+    //конструктор для инициализации переменной browser
     public LinkedInHomePage(WebDriver browser) {
         this.browser = browser;
         initElements();
     }
 
-    public void initElements() {
+    private void initElements() {
         profileNavigationItem = browser.findElement(By.xpath("//*[@id='profile-nav-item']"));
     }
 
-    public boolean isProfileNavigationItemDisplayed() {
-        return profileNavigationItem.isDisplayed();
+    public String getCurrentPageTitle() {
+        return browser.getTitle();
     }
 
+    public String getCurrentPageUrl() {
+        return browser.getCurrentUrl();
+    }
+
+    public boolean isLoaded() {
+        return profileNavigationItem.isDisplayed()
+                && getCurrentPageTitle().contains("LinkedIn")
+                && getCurrentPageUrl().contains("/feed/");
+    }
 }
