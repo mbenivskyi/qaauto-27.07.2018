@@ -30,15 +30,16 @@ public class LinkedinLoginTest {
         LinkedInLoginPage linkedInLoginPage = new LinkedInLoginPage(browser);
         linkedInLoginPage.login("youngbloodvasilievna@gmail.com", "Pensiya15000");
 
+        LinkedInHomePage linkedInHomePage = new LinkedInHomePage(browser);
+
         sleep(3000);
 
         String pageUrl = browser.getCurrentUrl();
         String pageTitle = browser.getTitle();
-        WebElement profileNavigationItem = browser.findElement(By.xpath("//*[@id='profile-nav-item']"));
 
         Assert.assertEquals(pageUrl, "https://www.linkedin.com/feed/", "Home page URL is wrong");
         Assert.assertEquals(pageTitle,"LinkedIn", "Home page title is wrong.");
-        Assert.assertTrue(profileNavigationItem.isDisplayed(), "'profileNavigationItem' is not displayed on Home page");
+        Assert.assertTrue(linkedInHomePage.isProfileNavigationItemDisplayed(), "'profileNavigationItem' is not displayed on Home page");
         //Assert.assertEquals(profileNavigationItem.isDisplayed(), true);
     }
 
