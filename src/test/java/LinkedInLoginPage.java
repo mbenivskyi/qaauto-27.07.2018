@@ -23,6 +23,10 @@ public class LinkedInLoginPage {
         signInButton = browser.findElement(By.xpath("//input[@id='login-submit']"));
     }
 
+    public boolean isSignInButtonEnabled () {
+        return signInButton.isEnabled();
+    }
+
     public void login(String userEmail, String userPass) {
         userEmailField.sendKeys(userEmail);
         userPasswordField.sendKeys(userPass);
@@ -32,5 +36,18 @@ public class LinkedInLoginPage {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getCurrentPageTitle() {
+        return browser.getTitle();
+    }
+
+    public String getCurrentPageUrl() {
+        return browser.getCurrentUrl();
+    }
+
+    public boolean isLoaded() {
+        return userEmailField.isDisplayed()
+                && getCurrentPageTitle().contains("LinkedIn: Log In or Sign Up");
     }
 }
