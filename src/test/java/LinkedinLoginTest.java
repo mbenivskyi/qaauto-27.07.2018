@@ -72,9 +72,22 @@ public class LinkedinLoginTest {
         Assert.assertTrue(linkedInLoginPage.isLoaded(), "User is not on Login page.");
     }
 
-    @Test
-    public void validateShortUserEmailAndPassword () {
-        linkedInLoginPage.login("a", "a");
+    @DataProvider
+    public Object[][] invalidUserEmailAndPasswordCombinations() {
+        return new Object[][]{
+                { "a", "a"},
+                { "youngbloodvasilievna@gmail.com", "wrong" },
+                { "youngbloodvasilievna@gmail.com", "wrongggg" },
+                {"a@b.c", "Pensiya15000"},
+                {"Pensiya15000", "youngbloodvasilievna@gmail.com"},
+                {"♣☺♂", "Pensiya15000"},
+                {"!@#$%^&*()", "Pensiya15000"}
+        };
+    }
+
+    @Test(dataProvider = "invalidUserEmailAndPasswordCombinations")
+    public void validateShortUserEmailAndPassword (String userEmail, String userPass) {
+        linkedInLoginPage.login(userEmail, userPass);
         LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
         Assert.assertTrue(linkedInLoginSubmitPage.isLoaded(), "User is not on LoginSubmit page.");
 
@@ -89,6 +102,22 @@ public class LinkedinLoginTest {
         Assert.assertEquals(linkedInLoginSubmitPage.getUserPasswordValidationText(),
                 "The password you provided must have at least 6 characters.",
                 "UserEmail field has wrong validation message text.");
+
+        Assert.assertEquals(linkedInLoginSubmitPage.getUserPasswordValidationText(),
+                "Hmm, that's not the right password. Please try again or request a new one.",
+                "Alert box has incorrect message");
+
+        Assert.assertEquals(linkedInLoginSubmitPage.getUserEmailValidationText(),
+                "Please enter a valid email address.",
+                "Alert box has incorrect message");
+
+        Assert.assertEquals(linkedInLoginSubmitPage.getUserEmailValidationText(),
+                "Be sure to include \"+\" and your country code.",
+                "Alert box has incorrect message");
+
+        Assert.assertEquals(linkedInLoginSubmitPage.getUserEmailValidationText(),
+                "Hmm, we don't recognize that email. Please try again.",
+                "Alert box has incorrect message");
     }
 
     @Test
@@ -115,6 +144,7 @@ public class LinkedinLoginTest {
     @Test
     public void negativeLoginTestWrongPassword () {
         linkedInLoginPage.login("youngbloodvasilievna@gmail.com", "wrong");
+        LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
 
         Assert.assertEquals(linkedInLoginSubmitPage.getAlertBoxText(),
                 "There were one or more errors in your submission. Please correct the marked fields below.",
@@ -127,6 +157,7 @@ public class LinkedinLoginTest {
     @Test
     public void negativeLoginTestLongWrongPassword () {
         linkedInLoginPage.login("youngbloodvasilievna@gmail.com", "wrongggg");
+        LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
 
         Assert.assertEquals(linkedInLoginSubmitPage.getAlertBoxText(),
                 "There were one or more errors in your submission. Please correct the marked fields below.",
@@ -139,6 +170,7 @@ public class LinkedinLoginTest {
     @Test
     public void negativeLoginTestWrongUserEmail () {
         linkedInLoginPage.login("a@b.c", "Pensiya15000");
+        LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
 
         Assert.assertEquals(linkedInLoginSubmitPage.getAlertBoxText(),
                 "There were one or more errors in your submission. Please correct the marked fields below.",
@@ -151,6 +183,7 @@ public class LinkedinLoginTest {
     @Test
     public void negativeLoginTestUserEmailPasswordViceVersa () {
         linkedInLoginPage.login("Pensiya15000", "youngbloodvasilievna@gmail.com");
+        LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
 
         Assert.assertEquals(linkedInLoginSubmitPage.getAlertBoxText(),
                 "There were one or more errors in your submission. Please correct the marked fields below.",
@@ -163,6 +196,7 @@ public class LinkedinLoginTest {
     @Test
     public void negativeLoginTestSymbolsInUserEmailField () {
         linkedInLoginPage.login("♣☺♂", "Pensiya15000");
+        LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
 
         Assert.assertEquals(linkedInLoginSubmitPage.getAlertBoxText(),
                 "There were one or more errors in your submission. Please correct the marked fields below.",
@@ -175,6 +209,7 @@ public class LinkedinLoginTest {
     @Test
     public void negativeLoginTestKeyboardSymbolsInUserEmailField () {
         linkedInLoginPage.login("!@#$%^&*()", "Pensiya15000");
+        LinkedInLoginSubmitPage linkedInLoginSubmitPage = new LinkedInLoginSubmitPage(browser);
 
         Assert.assertEquals(linkedInLoginSubmitPage.getAlertBoxText(),
                 "There were one or more errors in your submission. Please correct the marked fields below.",
