@@ -4,9 +4,7 @@ import org.openqa.selenium.WebElement;
 
 import static java.lang.Thread.sleep;
 
-public class LinkedInLoginSubmitPage {
-
-    private WebDriver browser;
+public class LinkedInLoginSubmitPage extends BasePage {
 
     private WebElement alertBox;
     private WebElement userEmailValidationText;
@@ -33,14 +31,6 @@ public class LinkedInLoginSubmitPage {
 
     public String getUserPasswordValidationText () {
         return userPasswordValidationText.getText();
-    }
-
-    public String getCurrentPageTitle() {
-        return browser.getTitle();
-    }
-
-    public String getCurrentPageUrl() {
-        return browser.getCurrentUrl();
     }
 
     public boolean isLoaded() {
