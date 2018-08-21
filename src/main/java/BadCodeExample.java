@@ -3,7 +3,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.events.WebDriverEventListener;
 import java.util.List;
 import static java.lang.Thread.sleep;
 
@@ -20,7 +19,8 @@ public class BadCodeExample {
         queryField.sendKeys(Keys.ENTER);
 
         //Verify that results list contains 10 elements
-        sleep(3000); //sleep is bad
+        //sleep is bad
+        sleep(3000);
         List<WebElement> searchResults = browser.findElements(By.xpath("//div[@class='srg']/div[@class='g']"));
         System.out.println("Results count: "+searchResults.size());
         if (searchResults.size() == 10){

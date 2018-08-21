@@ -7,7 +7,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 
-public class LinkedinLoginTest {
+public class LinkedInLoginTest {
 
     WebDriver browser;
     LinkedInLoginPage linkedInLoginPage;
