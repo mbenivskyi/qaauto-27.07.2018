@@ -5,7 +5,10 @@ import java.util.List;
 
 public class LinkedInSearchPage extends BasePage{
 
-    @FindBy(xpath = "//*[@class='search-result search-result__occluded-item ember-view']")
+    @FindBy(xpath = "//h3[contains(@class, 'search-results__total')]")
+    private WebElement searchResultsTotal;
+
+    @FindBy(xpath = "//li[contains(@class, 'search-result__occluded-item')]")
     private List<WebElement> searchResults;
 
     public LinkedInSearchPage(WebDriver browser) {
@@ -14,16 +17,13 @@ public class LinkedInSearchPage extends BasePage{
     }
 
     public boolean isLoaded() {
-        return searchResults.isEmpty()
-              && getCurrentPageTitle().contains("\"hr\" | Search | LinkedIn")
-              && getCurrentPageUrl().contains("/search/results/index/?keywords=hr&origin=GLOBAL_SEARCH_HEADER");
+        return searchResultsTotal.isDisplayed()
+              && getCurrentPageTitle().contains("| Search | LinkedIn")
+              && getCurrentPageUrl().contains("/search/results/");
     }
 
-    public boolean areThere10ResultsOnSearchPage() {
-        if (searchResults.size() == 10) {
-            return true;
-        }
-        return false;
+    public int getSearchResultsCount() {
+        return searchResults.size();
     }
 
     public boolean isSearchResultsContainSearchTerm() {

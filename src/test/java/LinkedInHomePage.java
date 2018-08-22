@@ -4,6 +4,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+
+import static java.lang.Thread.sleep;
+
 public class LinkedInHomePage extends BasePage {
 
     @FindBy (xpath = "//*[@id='profile-nav-item']")
@@ -24,9 +27,13 @@ public class LinkedInHomePage extends BasePage {
                 && getCurrentPageUrl().contains("/feed/");
     }
 
-    public LinkedInSearchPage searchForItem (String SearchText) {
-        searchField.sendKeys(SearchText);
+    public LinkedInSearchPage search (String SearchTerm) {
+        searchField.sendKeys(SearchTerm);
         searchField.sendKeys(Keys.ENTER);
-        return new LinkedInSearchPage(browser);
+        try {
+            sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }        return new LinkedInSearchPage(browser);
     }
 }
