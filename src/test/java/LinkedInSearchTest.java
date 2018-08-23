@@ -31,7 +31,7 @@ public class LinkedInSearchTest {
                     "Pensiya15000");
         Assert.assertTrue(linkedinHomePage.isLoaded(), "Home page is not loaded.");
         LinkedInSearchPage linkedInSearchPage = linkedinHomePage.search("hr");
-        Assert.assertFalse(linkedInSearchPage.isLoaded(), "Search page is not loaded.");
+        Assert.assertTrue(linkedInSearchPage.isLoaded(), "Search page is not loaded.");
         Assert.assertEquals(linkedInSearchPage.getSearchResultsCount(), 10,
                 "There are not 10 search results on Search page.");
         Assert.assertTrue(linkedInSearchPage.isSearchResultsContainSearchTerm(),
