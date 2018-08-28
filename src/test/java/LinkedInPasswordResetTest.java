@@ -5,8 +5,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.concurrent.TimeUnit;
-
 public class LinkedInPasswordResetTest {
 
     WebDriver browser;
@@ -25,25 +23,17 @@ public class LinkedInPasswordResetTest {
     }
 
     @Test
-    public void basicResetPasswordTest() {
-        linkedInLoginPage.resetPasswordRequest();
+    public void successfulResetPasswordTest() {
+        Assert.assertTrue(linkedInLoginPage.isLoaded(), "Login page is not loaded.");
+        LinkedInRequestPasswordResetPage linkedInRequestPasswordResetPage = linkedInLoginPage.clickOnForgotPasswordLink();
 
-        LinkedInPasswordResetPage linkedInPasswordResetPage = new LinkedInPasswordResetPage(browser);
-        Assert.assertTrue(linkedInPasswordResetPage.isLoaded(), "Password reset page is not loaded.");
-        linkedInPasswordResetPage.enterEmailToFindAccount("youngbloodvasilievna@gmail.com");
+        LinkedInPasswordResetSubmitPage linkedInPasswordResetSubmitPage = linkedInRequestPasswordResetPage.findAccount
+                ("youngbloodvasilievna@gmail.com");
+        Assert.assertTrue(linkedInRequestPasswordResetPage.isLoaded(), "Password reset page is not loaded.");
 
-        LinkedInPasswordResetSubmitPage linkedInPasswordResetSubmitPage = new LinkedInPasswordResetSubmitPage(browser);
-        Assert.assertEquals(linkedInPasswordResetSubmitPage.getContentHeaderText(), "We just emailed you a link",
-                "There is no notification that link was sent to user email.");
-        browser.manage().timeouts().implicitlyWait(1, TimeUnit.MINUTES);
+        //Navigate to URL from email manually
+        LinkedInSetNewPasswordPage linkedInSetNewPasswordPage = linkedInPasswordResetSubmitPage.navigateToLinkFromEmail();
+        Assert.assertTrue(linkedInSetNewPasswordPage.isLoaded(), "SetNewPasswordPage is not loaded.");
 
-        Assert.assertTrue(linkedInPasswordResetSubmitPage.isLoaded(), "Password reset submit page is not loaded.");
-        linkedInPasswordResetSubmitPage.typeNewPasswordAndSubmit("Test!es!", "Test!es!");
-        Assert.assertEquals(linkedInPasswordResetSubmitPage.getContentHeaderText(),
-                "Your password has been changed successfully",
-                "There is no notification that password was changed successfully.");
-        linkedInPasswordResetSubmitPage.goToHomepage();
-        LinkedInHomePage linkedInHomePage = new LinkedInHomePage(browser);
-        Assert.assertTrue(linkedInHomePage.isLoaded());
     }
 }

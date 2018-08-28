@@ -17,7 +17,7 @@ public class LinkedInLoginPage extends BasePage {
     private WebElement signInButton;
 
     @FindBy(xpath = "//*[@class='link-forgot-password']")
-    private WebElement resetPasswordButton;
+    private WebElement forgotPasswordLink;
 
     public LinkedInLoginPage (WebDriver browser) {
         this.browser = browser;
@@ -64,8 +64,9 @@ public class LinkedInLoginPage extends BasePage {
         return userEmailField.isDisplayed()
                 && getCurrentPageTitle().contains("LinkedIn: Log In or Sign Up");
     }
-    public LinkedInLoginPage resetPasswordRequest() {
-        resetPasswordButton.click();
-        return new LinkedInLoginPage(browser);
+
+    public LinkedInRequestPasswordResetPage clickOnForgotPasswordLink() {
+        forgotPasswordLink.click();
+        return new LinkedInRequestPasswordResetPage(browser);
     }
 }

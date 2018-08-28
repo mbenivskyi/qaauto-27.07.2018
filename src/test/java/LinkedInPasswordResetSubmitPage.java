@@ -5,8 +5,8 @@ import org.openqa.selenium.support.PageFactory;
 
 public class LinkedInPasswordResetSubmitPage extends BasePage{
 
-    @FindBy(xpath = "//header[@class='content__header']")
-    private WebElement contentHeader;
+    @FindBy(xpath = "//button[@id='resend-url']")
+    private WebElement resendLinkButton;
 
     @FindBy(xpath = "//input[@name='newPassword']")
     private WebElement newPasswordField;
@@ -25,10 +25,11 @@ public class LinkedInPasswordResetSubmitPage extends BasePage{
         PageFactory.initElements(browser, this);
     }
 
-    public String getContentHeaderText() {
-       return contentHeader.getText();
+    public boolean isLoaded() {
+        return resendLinkButton.isDisplayed()
+                && getCurrentPageTitle().contains("Please check your mail for reset password link.  | LinkedIn")
+                && getCurrentPageUrl().contains("/checkpoint/rp/password-reset");
     }
-
     public LinkedInPasswordResetSubmitPage typeNewPasswordAndSubmit (String newPass, String confirmNewPass){
         newPasswordField.sendKeys(newPass);
         confirmNewPasswordField.sendKeys(confirmNewPass);
@@ -36,14 +37,9 @@ public class LinkedInPasswordResetSubmitPage extends BasePage{
         return new LinkedInPasswordResetSubmitPage(browser);
     }
 
-    public void goToHomepage() {
-        goToHomepageButton.click();
-    }
 
-    public boolean isLoaded() {
-        return newPasswordField.isDisplayed()
-                && getCurrentPageTitle().contains("Reset Your Password | LinkedIn")
-                && getCurrentPageUrl().contains("/checkpoint/rp/password-reset");
+    public LinkedInSetNewPasswordPage navigateToLinkFromEmail() {
+        //ToDo
+        return new LinkedInSetNewPasswordPage(browser);
     }
-
 }
