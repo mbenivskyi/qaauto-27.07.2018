@@ -1,9 +1,14 @@
+package test;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import page.LinkedInHomePage;
+import page.LinkedInLoginPage;
+import page.LinkedInSearchPage;
 
 
 public class LinkedInSearchTest {
@@ -23,7 +28,13 @@ public class LinkedInSearchTest {
         browser.close();
     }
 
-        @Test
+    /**
+     * Verify successful search
+     *
+     * - Login
+     * - Search
+     */
+    @Test
     public void basicSearchTest() {
         Assert.assertTrue(linkedInLoginPage.isLoaded(), "User is not on Login page.");
         LinkedInHomePage linkedinHomePage = linkedInLoginPage.loginReturnHomePage(
