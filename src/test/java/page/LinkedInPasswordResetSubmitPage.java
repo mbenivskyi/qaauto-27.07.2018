@@ -12,18 +12,30 @@ public class LinkedInPasswordResetSubmitPage extends BasePage{
     private WebElement resendLinkButton;
 
 
+    /** Constructor of LinkedInPasswordResetSubmitPage
+     * @param browser Webdriver variable from test
+     */
     public LinkedInPasswordResetSubmitPage(WebDriver browser) {
         this.browser = browser;
         PageFactory.initElements(browser, this);
+        waitUntilElementIsVisible(resendLinkButton, 10);
     }
 
+    /**
+     * Verifies that LinkedInPasswordResetSubmitPage is loaded
+     * @return Returns if Webelement is displayed and page's title and URL contain appropriate values
+     */
     public boolean isLoaded() {
         return resendLinkButton.isDisplayed()
-                && getCurrentPageTitle().contains("Please check your mail for reset password link.  | LinkedIn")
-                && getCurrentPageUrl().contains("/checkpoint/rp/password-reset");
+                && getCurrentPageTitle().contains("Please check your mail for reset password link.")
+                && getCurrentPageUrl().contains("/checkpoint/rp/request-password-reset-submit");
     }
 
 
+    /**
+     * Navigates to link from Email
+     * @return Returns new LinkedInSetNewPasswordPage
+     */
     public LinkedInSetNewPasswordPage navigateToLinkFromEmail() {
         String messageSubject = "here's the link to reset your password";
         String messageTo = "youngbloodvasilievna@gmail.com";
@@ -33,13 +45,11 @@ public class LinkedInPasswordResetSubmitPage extends BasePage{
         System.out.println("Content: " + message);
 
         String resetPasswordLink = StringUtils.substringBetween(message,
-                "To change your LinkedIn password, click <a href=\\\"<a href=&quot;",
-                "&quot;>[text]</a>").replace("amp;", "");
+                "To change your LinkedIn password, click <a href=\"",
+                "\" style=").replace("amp;", "");
 
         System.out.println(resetPasswordLink);
         browser.get(resetPasswordLink);
-
-        //ToDo
         return new LinkedInSetNewPasswordPage(browser);
     }
 }

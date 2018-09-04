@@ -6,10 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import page.LinkedInLoginPage;
-import page.LinkedInPasswordResetSubmitPage;
-import page.LinkedInRequestPasswordResetPage;
-import page.LinkedInSetNewPasswordPage;
+import page.*;
 
 public class LinkedInPasswordResetTest {
 
@@ -32,14 +29,18 @@ public class LinkedInPasswordResetTest {
     public void successfulResetPasswordTest(){
         Assert.assertTrue(linkedInLoginPage.isLoaded(), "Login page is not loaded.");
         LinkedInRequestPasswordResetPage linkedInRequestPasswordResetPage = linkedInLoginPage.clickOnForgotPasswordLink();
+        Assert.assertTrue(linkedInRequestPasswordResetPage.isLoaded(),
+                "RequestPasswordResetPage is not loaded.");
 
         LinkedInPasswordResetSubmitPage linkedInPasswordResetSubmitPage = linkedInRequestPasswordResetPage.findAccount
                 ("youngbloodvasilievna@gmail.com");
-        Assert.assertTrue(linkedInPasswordResetSubmitPage.isLoaded(), "Password reset submit page is not loaded.");
+        Assert.assertTrue(linkedInPasswordResetSubmitPage.isLoaded(), "PasswordResetSubmitPage is not loaded.");
 
-        //Navigate to URL from email manually
         LinkedInSetNewPasswordPage linkedInSetNewPasswordPage = linkedInPasswordResetSubmitPage.navigateToLinkFromEmail();
         Assert.assertTrue(linkedInSetNewPasswordPage.isLoaded(), "SetNewPasswordPage is not loaded.");
+        linkedInSetNewPasswordPage.typeNewPasswordAndSubmit("Test1es1", "Test1es1");
 
+        LinkedInHomePage linkedInHomePage = linkedInSetNewPasswordPage.goToHomePage();
+        Assert.assertTrue(linkedInHomePage.isLoaded(), "Home page is not loaded.");
     }
 }

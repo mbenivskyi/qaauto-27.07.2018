@@ -22,7 +22,7 @@ public class BadCodeExample {
         //sleep is bad
         sleep(3000);
         List<WebElement> searchResults = browser.findElements(By.xpath("//div[@class='srg']/div[@class='g']"));
-        System.out.println("Results count: "+searchResults.size());
+        System.out.println("Results count: " + searchResults.size());
         if (searchResults.size() == 10){
             System.out.println("Results count is correct");
         } else{

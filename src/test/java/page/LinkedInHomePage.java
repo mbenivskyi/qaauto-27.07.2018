@@ -17,25 +17,34 @@ public class LinkedInHomePage extends BasePage {
     @FindBy (xpath = "//input[@role='combobox']")
     private WebElement searchField;
 
-    //конструктор для инициализации переменной browser
+    /**
+     * Constructor of LinkedInHomePage
+     * @param browser Webdriver variable from test
+     */
     public LinkedInHomePage(WebDriver browser) {
         this.browser = browser;
         PageFactory.initElements(browser, this);
+        waitUntilElementIsVisible(profileNavigationItem, 10);
     }
 
+    /**
+     * Verifies that LinkedInHomePage is loaded
+     * @return Returns if Webelement is displayed and page's title and URL contain appropriate values
+     */
     public boolean isLoaded() {
         return profileNavigationItem.isDisplayed()
                 && getCurrentPageTitle().contains("LinkedIn")
                 && getCurrentPageUrl().contains("/feed/");
     }
 
+    /**
+     * Searches for an appropriate term
+     * @param SearchTerm Appropriate term
+     * @return Returning new LinkedInSearchPage
+     */
     public LinkedInSearchPage search (String SearchTerm) {
         searchField.sendKeys(SearchTerm);
         searchField.sendKeys(Keys.ENTER);
-        try {
-            sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }        return new LinkedInSearchPage(browser);
+        return new LinkedInSearchPage(browser);
     }
 }

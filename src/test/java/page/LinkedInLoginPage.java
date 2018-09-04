@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import static java.lang.Thread.sleep;
 
 /**
  * Page Object class for LinkedInLoginPage.
@@ -31,8 +30,15 @@ public class LinkedInLoginPage extends BasePage {
     public LinkedInLoginPage (WebDriver browser) {
         this.browser = browser;
         PageFactory.initElements(browser, this);
+        waitUntilElementIsVisible(userEmailField, 10);
     }
 
+    /**
+     * Returns LinkedInLoginSubmitPage after login
+     * @param userEmail UserEmail
+     * @param userPass UserPassword
+     * @return Returns new LiginSubmitPage
+     */
     public LinkedInLoginSubmitPage loginReturnLoginSubmitPage(String userEmail, String userPass) {
         userEmailField.sendKeys(userEmail);
         userPasswordField.sendKeys(userPass);
@@ -40,35 +46,45 @@ public class LinkedInLoginPage extends BasePage {
         return new LinkedInLoginSubmitPage(browser);
     }
 
+    /**
+     * Returns LinkedInHomePage after login
+     * @param userEmail UserEmail
+     * @param userPass UserPassword
+     * @return Returns new LinkedInHomePage
+     */
     public LinkedInHomePage loginReturnHomePage(String userEmail, String userPass) {
         userEmailField.sendKeys(userEmail);
         userPasswordField.sendKeys(userPass);
         signInButton.click();
-        try {
-            sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return new LinkedInHomePage(browser);
     }
 
+    /**
+     * Returns LinkedInLoginPage after login
+     * @param userEmail UserEmail
+     * @param userPass UserPassword
+     * @return Returns new LinkedInLoginPage
+     */
     public LinkedInLoginPage loginReturnLoginPage(String userEmail, String userPass) {
         userEmailField.sendKeys(userEmail);
         userPasswordField.sendKeys(userPass);
         signInButton.click();
-        try {
-            sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return new LinkedInLoginPage(browser);
     }
 
+    /**
+     * Verifies that LinkedInLoginPage is loaded
+     * @return Returns if Webelement is displayed and page title contains appropriate value
+     */
     public boolean isLoaded() {
         return userEmailField.isDisplayed()
                 && getCurrentPageTitle().contains("LinkedIn: Log In or Sign Up");
     }
 
+    /**
+     * Clicks on forgotPasswordLink
+     * @return Returns new LinkedInRequestPasswordResetPage
+     */
     public LinkedInRequestPasswordResetPage clickOnForgotPasswordLink() {
         forgotPasswordLink.click();
         return new LinkedInRequestPasswordResetPage(browser);

@@ -37,10 +37,12 @@ public class LinkedInSearchTest {
     @Test
     public void basicSearchTest() {
         Assert.assertTrue(linkedInLoginPage.isLoaded(), "User is not on Login page.");
+
         LinkedInHomePage linkedinHomePage = linkedInLoginPage.loginReturnHomePage(
                     "youngbloodvasilievna@gmail.com",
                     "Pensiya15000");
         Assert.assertTrue(linkedinHomePage.isLoaded(), "Home page is not loaded.");
+
         LinkedInSearchPage linkedInSearchPage = linkedinHomePage.search("hr");
         Assert.assertTrue(linkedInSearchPage.isLoaded(), "Search page is not loaded.");
         Assert.assertEquals(linkedInSearchPage.getSearchResultsCount(), 10,
