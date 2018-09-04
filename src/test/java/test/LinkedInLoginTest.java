@@ -1,33 +1,13 @@
 package test;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import page.LinkedInHomePage;
-import page.LinkedInLoginPage;
 import page.LinkedInLoginSubmitPage;
 
 
-public class LinkedInLoginTest {
-
-    WebDriver browser;
-    LinkedInLoginPage linkedInLoginPage;
-
-    @BeforeMethod
-    public void beforeMethod() {
-        browser = new FirefoxDriver();
-        browser.get("https://www.linkedin.com/");
-        linkedInLoginPage = new LinkedInLoginPage(browser);
-    }
-
-    @AfterMethod
-    public void afterMethod() {
-        browser.close();
-    }
+public class LinkedInLoginTest extends BaseTest{
 
     @DataProvider
     public Object[][] validFieldsCombination() {
@@ -40,7 +20,7 @@ public class LinkedInLoginTest {
     @Test(dataProvider = "validFieldsCombination")
     public void successfulLoginTest(String userEmail, String userPass) {
 
-        LinkedInHomePage linkedInHomePage = linkedInLoginPage.loginReturnHomePage(userEmail, userPass);
+        LinkedInHomePage linkedInHomePage = linkedInLoginPage.login(userEmail, userPass);
 
         Assert.assertTrue(linkedInHomePage.isLoaded(), "Home page is not loaded.");
     }
@@ -56,7 +36,7 @@ public class LinkedInLoginTest {
 
     @Test(dataProvider = "emptyFieldsCombination")
     public void validateUserEmailAndUserPassword (String userEmail, String userPass) {
-        linkedInLoginPage.loginReturnLoginPage(userEmail, userPass);
+        linkedInLoginPage.login(userEmail, userPass);
         Assert.assertTrue(linkedInLoginPage.isLoaded(), "User is not on Login page.");
     }
 
@@ -82,7 +62,7 @@ public class LinkedInLoginTest {
                                                    String userPass,
                                                    String userEmailValidationText,
                                                    String userPassValidationText) {
-        LinkedInLoginSubmitPage linkedInLoginSubmitPage = linkedInLoginPage.loginReturnLoginSubmitPage(userEmail, userPass);
+        LinkedInLoginSubmitPage linkedInLoginSubmitPage = linkedInLoginPage.login(userEmail, userPass);
         Assert.assertTrue(linkedInLoginSubmitPage.isLoaded(), "User is not on LoginSubmit page.");
 
         Assert.assertEquals(linkedInLoginSubmitPage.getAlertBoxText(),

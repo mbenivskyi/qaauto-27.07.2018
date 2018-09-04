@@ -29,7 +29,7 @@ public class LinkedInSetNewPasswordPage extends BasePage {
     }
 
     /**
-     * Types new password and submit it
+     * Types new password and submit it.
      * @param newPass New password
      * @param confirmNewPass Confirmation of new password
      * @return Returns new LinkedInSetNewPasswordPage

@@ -39,11 +39,11 @@ public class LinkedInHomePage extends BasePage {
 
     /**
      * Searches for an appropriate term
-     * @param SearchTerm Appropriate term
+     * @param searchTerm Appropriate term
      * @return Returning new LinkedInSearchPage
      */
-    public LinkedInSearchPage search (String SearchTerm) {
-        searchField.sendKeys(SearchTerm);
+    public LinkedInSearchPage search (String searchTerm) {
+        searchField.sendKeys(searchTerm);
         searchField.sendKeys(Keys.ENTER);
         return new LinkedInSearchPage(browser);
     }

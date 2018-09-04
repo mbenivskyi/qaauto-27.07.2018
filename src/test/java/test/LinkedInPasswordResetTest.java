@@ -1,29 +1,10 @@
 package test;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import page.*;
 
-public class LinkedInPasswordResetTest {
-
-    WebDriver browser;
-    LinkedInLoginPage linkedInLoginPage;
-
-    @BeforeMethod
-    public void beforeMethod() {
-        browser = new FirefoxDriver();
-        browser.get("https://www.linkedin.com/");
-        linkedInLoginPage = new LinkedInLoginPage(browser);
-    }
-
-    @AfterMethod
-    public void afterMethod() {
-        browser.close();
-    }
+public class LinkedInPasswordResetTest extends BaseTest{
 
     @Test
     public void successfulResetPasswordTest(){
@@ -38,7 +19,7 @@ public class LinkedInPasswordResetTest {
 
         LinkedInSetNewPasswordPage linkedInSetNewPasswordPage = linkedInPasswordResetSubmitPage.navigateToLinkFromEmail();
         Assert.assertTrue(linkedInSetNewPasswordPage.isLoaded(), "SetNewPasswordPage is not loaded.");
-        linkedInSetNewPasswordPage.typeNewPasswordAndSubmit("Test1es1", "Test1es1");
+        linkedInSetNewPasswordPage.typeNewPasswordAndSubmit("Pensiya15000", "Pensiya15000");
 
         LinkedInHomePage linkedInHomePage = linkedInSetNewPasswordPage.goToHomePage();
         Assert.assertTrue(linkedInHomePage.isLoaded(), "Home page is not loaded.");

@@ -34,47 +34,29 @@ public class LinkedInLoginPage extends BasePage {
     }
 
     /**
-     * Returns LinkedInLoginSubmitPage after login
-     * @param userEmail UserEmail
-     * @param userPass UserPassword
-     * @return Returns new LiginSubmitPage
+     * Method that enters userEmail/userPass and click on signIn button.
+     * @param userEmail - String with user email.
+     * @param userPass - String with user password.
+     * @param <T> - Generic type to return corresponding pageObject.
+     * @return either LinkedInHomePage or LinkedInLoginSubmitPage or LinkedInLoginPage.
      */
-    public LinkedInLoginSubmitPage loginReturnLoginSubmitPage(String userEmail, String userPass) {
+    public <T> T login (String userEmail, String userPass) {
         userEmailField.sendKeys(userEmail);
         userPasswordField.sendKeys(userPass);
         signInButton.click();
-        return new LinkedInLoginSubmitPage(browser);
+        if (getCurrentPageUrl().contains("/feed")){
+            return (T) new LinkedInHomePage(browser);
+        }
+        if (getCurrentPageUrl().contains("/uas/login-submit")){
+            return (T) new LinkedInLoginSubmitPage(browser);
+        } else {
+            return (T) new LinkedInLoginPage(browser);
+        }
     }
 
     /**
-     * Returns LinkedInHomePage after login
-     * @param userEmail UserEmail
-     * @param userPass UserPassword
-     * @return Returns new LinkedInHomePage
-     */
-    public LinkedInHomePage loginReturnHomePage(String userEmail, String userPass) {
-        userEmailField.sendKeys(userEmail);
-        userPasswordField.sendKeys(userPass);
-        signInButton.click();
-        return new LinkedInHomePage(browser);
-    }
-
-    /**
-     * Returns LinkedInLoginPage after login
-     * @param userEmail UserEmail
-     * @param userPass UserPassword
-     * @return Returns new LinkedInLoginPage
-     */
-    public LinkedInLoginPage loginReturnLoginPage(String userEmail, String userPass) {
-        userEmailField.sendKeys(userEmail);
-        userPasswordField.sendKeys(userPass);
-        signInButton.click();
-        return new LinkedInLoginPage(browser);
-    }
-
-    /**
-     * Verifies that LinkedInLoginPage is loaded
-     * @return Returns if Webelement is displayed and page title contains appropriate value
+     * Verifies that LinkedInLoginPage is loaded.
+     * @return Returns if Webelement is displayed and page title contains appropriate value.
      */
     public boolean isLoaded() {
         return userEmailField.isDisplayed()
@@ -82,8 +64,8 @@ public class LinkedInLoginPage extends BasePage {
     }
 
     /**
-     * Clicks on forgotPasswordLink
-     * @return Returns new LinkedInRequestPasswordResetPage
+     * Clicks on forgotPasswordLink.
+     * @return Returns new LinkedInRequestPasswordResetPage.
      */
     public LinkedInRequestPasswordResetPage clickOnForgotPasswordLink() {
         forgotPasswordLink.click();

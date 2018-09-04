@@ -3,6 +3,8 @@ package page;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -51,5 +53,14 @@ public class LinkedInSearchPage extends BasePage{
                 return true;}
         }
         return false;
+    }
+
+    public List<String> getSearchResultsList() {
+        List<String> searchResultsList = new ArrayList<String>();
+        for (WebElement searchResult: searchResults) {
+            ((JavascriptExecutor)browser).executeScript("arguments[0].scrollIntoView();", searchResult);
+            searchResultsList.add(searchResult.getText());
+        }
+        return searchResultsList;
     }
 }
