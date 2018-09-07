@@ -13,9 +13,9 @@ public class BaseTest {
     WebDriver browser;
     LinkedInLoginPage linkedInLoginPage;
 
-    @Parameters("browserName")
+    @Parameters({"browserName", "envURL"})
     @BeforeMethod
-    public void beforeMethod(@Optional("firefox") String browserName) {
+    public void beforeMethod(@Optional("firefox") String browserName, @Optional("https://www.linkedin.com/") String envURL) {
         if (browserName.toLowerCase().equals("firefox")){
             browser = new FirefoxDriver();
         }
@@ -28,8 +28,7 @@ public class BaseTest {
                 e.printStackTrace();
             }
         }
-
-        browser.get("https://www.linkedin.com/");
+        browser.get(envURL);
         linkedInLoginPage = new LinkedInLoginPage(browser);
     }
 

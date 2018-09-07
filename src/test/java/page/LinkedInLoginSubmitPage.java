@@ -55,7 +55,6 @@ public class LinkedInLoginSubmitPage extends BasePage {
      */
     public boolean isLoaded() {
         return alertBox.isDisplayed()
-                && getCurrentPageTitle().contains("Sign In to LinkedIn")
                 && getCurrentPageUrl().contains("/uas/login-submit");
     }
 }

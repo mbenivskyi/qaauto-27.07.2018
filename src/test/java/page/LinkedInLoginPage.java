@@ -60,7 +60,9 @@ public class LinkedInLoginPage extends BasePage {
      */
     public boolean isLoaded() {
         return userEmailField.isDisplayed()
-                && getCurrentPageTitle().contains("LinkedIn: Log In or Sign Up");
+                && getCurrentPageTitle().contains("LinkedIn: Log In or Sign Up")
+                || getCurrentPageTitle().contains("LinkedIn: Einloggen oder Registrieren")
+                || getCurrentPageTitle().contains("LinkedIn: Войти или зарегистрироваться");
     }
 
     /**
