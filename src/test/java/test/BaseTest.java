@@ -36,5 +36,4 @@ public class BaseTest {
     public void afterMethod() {
         browser.close();
     }
-
 }
