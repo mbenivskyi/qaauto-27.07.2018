@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="SearchTestSuite" verbose="1" >
+    <parameter name="browserName" value="Firefox"/>
+    <parameter name="envURL" value="https://linkedin.com"/>
+    <test name="SearchTestFirefoxLinkedInUA" >
+        <classes>
+            <class name="test.LinkedInSearchTest" />
+        </classes>
+    </test>
+</suite>
